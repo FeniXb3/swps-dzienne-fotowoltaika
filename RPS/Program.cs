@@ -33,8 +33,25 @@ const StringComparison stringComparison = StringComparison.OrdinalIgnoreCase;
 int firstPlayerPoints = 0;
 int secondPlayerPoints = 0;
 
+Console.WriteLine("How many wins?");
+string maxWinsText = Console.ReadLine()!;
+// int maxWins = int.Parse(maxWinsText);
+// int maxWins = Convert.ToInt32(maxWinsText);
+// int maxWins;
+// bool parsingResult = int.TryParse(maxWinsText, out maxWins);
+bool parsingResult = uint.TryParse(maxWinsText, out uint maxWins);
+
+
+while (!parsingResult || maxWins <= 0)
+{
+    Console.WriteLine("How many wins?");
+    maxWinsText = Console.ReadLine()!;
+    parsingResult = uint.TryParse(maxWinsText, out maxWins);
+}
+
+
 // graj, dopóki nikt nie otrzymał 3 punktów
-while (true)
+while (firstPlayerPoints < maxWins && secondPlayerPoints < maxWins)
 {
     Console.WriteLine("Let's play Rock-Paper-Scissors!");
 
@@ -63,8 +80,8 @@ while (true)
     Console.WriteLine($"First player: {firstPlayerPoints}");
     Console.WriteLine($"Second player: {secondPlayerPoints}");
 
-    if (firstPlayerPoints >= 3 || secondPlayerPoints >= 3)
-    {
-        break;
-    }
+    // if (firstPlayerPoints >= maxWins || secondPlayerPoints >= maxWins)
+    // {
+    //     break;
+    // }
 }
