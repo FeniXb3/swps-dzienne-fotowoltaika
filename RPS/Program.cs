@@ -1,11 +1,21 @@
-﻿List<string> allowedSigns = ["rock", "paper", "scissors", "lizard", "spock"];
+﻿char keyValueSeparator = ';';
+char valuesSeparator = ',';
+List<string> allowedSigns = [];
+Dictionary<string, string[]> winningMap = [];
 
-Dictionary<string, List<string>> winningMap = []; // WM
-winningMap["rock"] = ["scissors", "lizard"];
-winningMap["paper"] = ["rock", "spock"];
-winningMap["scissors"] = ["paper", "lizard"];
-winningMap["lizard"] = ["paper", "spock"];
-winningMap["spock"] = ["rock", "scissors"];
+StreamReader streamReader = File.OpenText(@"data.txt");
+string? line = streamReader.ReadLine();
+
+while (line != null)
+{
+    string[] parts = line.Split(keyValueSeparator);
+    string winningSign = parts[0];
+    allowedSigns.Add(winningSign);
+
+    string[] losingSigns = parts[1].Split(valuesSeparator);
+    winningMap[winningSign] = losingSigns;
+    line = streamReader.ReadLine();
+}
 
 string GetCorrectSign(string playerName)
 {
@@ -76,7 +86,7 @@ while (firstPlayerPoints < maxWins && secondPlayerPoints < maxWins)
     string firstSign = GetCorrectSign(firstPlayerName); // P1
     string secondSign = GetCorrectSign(secondPlayerName); // P2
 
-    List<string> signsLosingWithFirstSign = winningMap[firstSign];
+    string[] signsLosingWithFirstSign = winningMap[firstSign];
 
     if (firstSign.Equals(secondSign, stringComparison))
     {
